@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuex@2.0.0"></script>
+    <script src="./components/index.js"></script>
+    <script src="./components/children.js"></script>
+</head>
+<body>
+    <div class="container" id="app">
+        <inputs></inputs>
+    </div>   
+    <script>
+        const store = new Vuex.Store({
+            state:{
+                datos:[],
+                nombre:'',
+                telefono:'',
+                cantidad:0
+            },
+            mutations:{
+                addUsers(state,data){
+                    state.datos = data;
+                },
+                insertUser(state){
+                    state.datos.push({
+                        nombre: store.state.nombre,
+                        telefono: store.state.telefono
+                    });
+                    store.state.nombre = '';
+                    store.state.telefono =  '';
+                }
+            },
+            actions:{
+                llenandoDatos: async function({commit}){
+                    const data = await fetch('datos.json');
+                    const datos = await data.json();
+                    commit('addUsers',datos);
+                }
+            }
+        })
+        new Vue({
+            el: '#app',
+            store
+        })
+    </script>
+</body>
+</html>

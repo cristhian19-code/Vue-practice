@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuex@2.0.0"></script>
+    <script src="./components/index.js"></script>
+    <script src="./components/tabla.js"></script>
+</head>
+<body>
+    <div class="container-fluid" id="app">
+        <index></index>
+    </div>      
+    <script>
+        const store = new Vuex.Store({
+            state:{
+                datos:[],
+                nombre:'',
+                dni:''
+            },
+            mutations:{
+                guardarDatos(state){
+                    const res = JSON.parse(localStorage.getItem('dbItems'));
+                    if(res != null){
+                        state.datos = res;
+                        state.datos.push({
+                            'nombre': state.nombre,
+                            'dni': state.dni
+                        });
+                    }else{
+                        state.datos.push({
+                            'nombre': state.nombre,
+                            'dni': state.dni
+                        });
+                    }
+                    localStorage.setItem('dbItems',JSON.stringify(state.datos));
+                    state.nombre = '';
+                    state.dni = '';
+                },
+                llenarDatos(state){
+                    const res = JSON.parse(localStorage.getItem('dbItems'))
+                    if(res !=null){
+                        state.datos = JSON.parse(localStorage.getItem('dbItems'));
+                    }else{
+                        state.datos = [];
+                    }
+                }
+            },
+            actions:{
+                llenado: async function({commit}) {
+                    await commit('llenarDatos');
+                }
+            }
+        })
+        new Vue({
+            el: '#app',
+            store
+        })
+    </script>
+</body>
+</html

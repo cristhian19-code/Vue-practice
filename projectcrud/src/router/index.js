@@ -1,0 +1,35 @@
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
+
+  const routes = [
+  {
+    path: '/',
+    name: 'Inicio',
+    component: () => import(/* webpackChunkName: "inicio" */ '../views/Inicio.vue')
+  },
+  {
+    path: '/agregar',
+    name: 'Agregar',
+    component: () => import(/* webpackChunkName: "agregar" */ '../views/Agregar.vue')
+  },
+  {
+    path: '/editar/:id',
+    name: 'Editar',
+    component: () => import(/* webpackChunkName: "editar" */ '../views/Editar.vue')
+  },
+  {
+    path: '/compra',
+    name: 'Compra',
+    component: () => import(/* webpackChunkName: "compra" */ '../views/Compra.vue')
+  }
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+})
+
+export default router
