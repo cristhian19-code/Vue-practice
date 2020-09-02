@@ -14,14 +14,9 @@ Vue.config.productionTip = false
 
 firebase.auth().onAuthStateChanged(async result=>{
   if(result){
-    if(result.displayName){
-      const user = DatosGF(result);
-      store.dispatch('getUser',user)
-    }else{
       const datos = await (await db.collection('usuarios').doc(result.uid).get()).data();
       const res = DatosT(datos)
       store.dispatch('getUser',res)
-    }
   }else{
     store.dispatch('getUser',null)
     console.log('sin iniciar sesion')
@@ -35,21 +30,12 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-function DatosGF(result){
-  const user = {
-    email: result.email,
-    photo: result.photoURL,
-    uid: result.uid,
-    name: result.displayName
-  }
-  return user
-}
-
 function DatosT(result){
   const user = {
     email: result.email,
     photo: result.photoURL,
     uid: result.uid,
+    favorites: result.favorites,
     name: result.name
   }
   return user

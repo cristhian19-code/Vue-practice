@@ -26,17 +26,15 @@ export default new Vuex.Store({
   actions: {
     async getUser({commit},user){//metodo para guardar el usuario al entrar en la pagina
       if(user){
-        console.log(user)
         commit('setUser',user)
       }else{
         commit('setUser',null)
       }
     },
-    async Busqueda({commit},search){//busqueda de libros
-      var uri = `https://www.etnassoft.com/api/v1/get/?book_title='${search}'`
+    async Busqueda({commit},search){//busqueda por nombre del libro
+      var uri = `https://www.etnassoft.com/api/v1/get/?book_title='${search}'`;
       try {
         const books = await axios.get(uri);
-        console.log(books.data);
         commit('setBooks',books.data);
         commit('changeStatus',false);
       } catch (error) {
@@ -50,6 +48,7 @@ export default new Vuex.Store({
         const usuario = {
           email: user.email,
           uid: user.uid,
+          favorites: [],
           name: payload.name,
           photo: null
         }
@@ -77,6 +76,7 @@ export default new Vuex.Store({
           email: result.email,
           photo: result.photoURL,
           uid: result.uid,
+          favorites: [],
           name: result.displayName
         }
         await db.collection('usuarios').doc(user.uid).set(user);
@@ -94,10 +94,27 @@ export default new Vuex.Store({
         console.log(err);
       }
     },
-    async addFavority({commit},payload){//agregando los favoritos al usuario
+    async addFavority({commit,state},payload){//agregando los favoritos al usuario
       try {
-        await db.collection('usuarios').doc(payload.id).set()
-        console.log('usuario agregado');
+        const book = {
+          ID: payload.ID,
+          autor: payload.author,
+          categories: payload.categories,
+          content_short: payload.content_short, 
+          cover: payload.cover,
+          language: payload.language,
+          pages: payload.pages,
+          publisher: payload.publisher,
+          publisher_date: payload.publisher_date,
+          thumbnail: payload.thumbnail,
+          title: payload.title,
+          tags: payload.tags
+        }
+        var books = await (await db.collection('usuarios').doc(state.user.uid).get()).data().favorites;
+        books.push(book)
+        await db.collection('usuarios').doc(state.user.uid).update({favorites: books});
+        var user =await (await db.collection('usuarios').doc(state.user.uid).get()).data();
+        commit('setUser',user);
       } catch (error) {
         console.log('hubo un error')
         console.log(error);

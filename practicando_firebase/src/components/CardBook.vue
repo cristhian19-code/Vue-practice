@@ -25,7 +25,8 @@
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn icon>
-            <v-icon color="error">mdi-heart</v-icon>
+            <v-icon v-if="user.favorites.find(res => res.ID === book.ID)" color="error">mdi-heart</v-icon>
+            <v-icon @click="addFavority(book)" v-else color="secondary">mdi-heart</v-icon>
         </v-btn>
     </v-card-actions>
     <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
@@ -78,14 +79,25 @@
 </template>
 
 <script>
+import {
+    mapActions,
+    mapState
+} from 'vuex'
 export default {
     props: ['book'],
     name: 'CardBook',
     data() {
         return {
             show: '',
-            dialog: false
+            dialog: false,
+            activate: false
         }
+    },
+    methods: {
+        ...mapActions(['addFavority'])
+    },
+    computed: {
+        ...mapState(['user'])
     },
 }
 </script>
