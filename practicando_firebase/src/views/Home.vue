@@ -13,7 +13,7 @@
                         <v-btn @click="RegistrarGoogle()" height="50" width="50" icon color="error" class="mx-2 my-3">
                             <v-icon size="40">mdi-google</v-icon>
                         </v-btn>
-                        <v-btn height="50" width="50" icon color="info" class="mx-2 my-3">
+                        <v-btn @click="RegistrarFacebook()" height="50" width="50" icon color="info" class="mx-2 my-3">
                             <v-icon size="40">mdi-facebook</v-icon>
                         </v-btn>
                     </v-layout>
@@ -59,7 +59,7 @@ export default {
     },
 
     methods: {
-        ...mapActions(['RegistrarGoogle', 'Registrar', 'IniciarSesion'])
+        ...mapActions(['RegistrarGoogle', 'Registrar', 'IniciarSesion', 'RegistrarFacebook'])
     },
 }
 </script>

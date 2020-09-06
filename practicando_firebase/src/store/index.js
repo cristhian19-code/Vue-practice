@@ -70,20 +70,12 @@ export default new Vuex.Store({
     async RegistrarGoogle({commit}){//registro utilizando la cuenta de google
       const provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth().languageCode = 'es-pe';
-      try {
-        const result = (await firebase.auth().signInWithPopup(provider)).user;
-        const user = {
-          email: result.email,
-          photo: result.photoURL,
-          uid: result.uid,
-          favorites: [],
-          name: result.displayName
-        }
-        await db.collection('usuarios').doc(user.uid).set(user);
-        commit('setUser',user);
-      } catch (error) {
-        console.log(error)
-      }
+      Provider(provider,commit)
+    },
+    async RegistrarFacebook({commit}){
+      const provider = new firebase.auth.FacebookAuthProvider();
+      firebase.auth().languageCode = 'es-pe';
+      Provider(provider,commit)
     },
     async cerrarSesion({commit}){//cerrando la sesion del usuario
       try{
@@ -92,6 +84,22 @@ export default new Vuex.Store({
         commit('setUser',null);
       }catch(err){
         console.log(err);
+      }
+    },
+    async removeFavority({commit,state},payload){
+      try {
+        const datos = (await db.collection('usuarios').doc(state.user.uid).get()).data().favorites;
+        var books = [];
+        datos.forEach(element => {
+          if(element.ID != payload.ID){
+            books.push(element);
+          }   
+        });
+        await db.collection('usuarios').doc(state.user.uid).update({favorites: books});
+        const user = (await db.collection('usuarios').doc(state.user.uid).get()).data();
+        commit('setUser',user)
+      } catch (error) {
+        console.log(error)
       }
     },
     async addFavority({commit,state},payload){//agregando los favoritos al usuario
@@ -113,7 +121,7 @@ export default new Vuex.Store({
         var books = await (await db.collection('usuarios').doc(state.user.uid).get()).data().favorites;
         books.push(book)
         await db.collection('usuarios').doc(state.user.uid).update({favorites: books});
-        var user =await (await db.collection('usuarios').doc(state.user.uid).get()).data();
+        var user = await (await db.collection('usuarios').doc(state.user.uid).get()).data();
         commit('setUser',user);
       } catch (error) {
         console.log('hubo un error')
@@ -125,3 +133,20 @@ export default new Vuex.Store({
     }
   },
 })
+
+async function Provider(provider,commit){
+  try {
+    const result = (await firebase.auth().signInWithPopup(provider)).user;
+    const user = {
+      email: result.email,
+      photo: result.photoURL,
+      uid: result.uid,
+      favorites: [],
+      name: result.displayName
+    }
+    await db.collection('usuarios').doc(user.uid).set(user);
+    commit('setUser',user);
+  } catch (error) {
+    console.log(error)
+  }
+}

@@ -25,7 +25,7 @@
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn icon>
-            <v-icon v-if="user.favorites.find(res => res.ID === book.ID)" color="error">mdi-heart</v-icon>
+            <v-icon v-if="user.favorites.find(res => res.ID === book.ID)" @click="removeFavority(book)" color="error">mdi-heart</v-icon>
             <v-icon @click="addFavority(book)" v-else color="secondary">mdi-heart</v-icon>
         </v-btn>
     </v-card-actions>
@@ -94,7 +94,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['addFavority'])
+        ...mapActions(['addFavority', 'removeFavority'])
     },
     computed: {
         ...mapState(['user'])

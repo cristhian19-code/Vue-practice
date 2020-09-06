@@ -1,16 +1,21 @@
 <template>
 <v-app id="create">
-    <v-app-bar app color="secondary" dark v-if="windowsWidth>=960" class="d-flex justify-space-between align-center">
-        <v-flex class="d-flex align-center">
-            <p class="display-1 mt-2 mr-3">Hoteles</p>
-            <v-btn color="info" class="mx-2" :to="{name:'Home'}">Home</v-btn>
-            <v-btn color="info" class="mx-2" :to="{name:'Books'}">Books</v-btn>
-            <v-btn color="info" class="mx-2" :to="{name:'Favorites'}">Favorites</v-btn>
-        </v-flex>
-        <v-flex class="d-flex align-center" v-if="user">
-            <v-avatar size="50" color="indigo">
-                <span class="display-1">{{user.name[0]}}</span>
-            </v-avatar>
+    <v-app-bar app color="secondary" dark v-if="windowsWidth>=960" height="90">
+        <p class="display-1 mt-2 mr-3">BookOnline</p>
+        <v-btn color="info" class="mx-2" :to="{name:'Home'}">Home</v-btn>
+        <v-btn color="info" class="mx-2" :to="{name:'Books'}">Books</v-btn>
+        <v-btn color="info" class="mx-2" :to="{name:'Favorites'}">Favorites</v-btn>
+        <v-btn color="error" class="mx-2" v-if="user" @click="cerrarSesion()">Sign Off</v-btn>
+        <v-avatar class="mx-2" size="50" color="indigo" v-if="user">
+            <span class="display-1">{{user.name[0]}}</span>
+        </v-avatar>
+        <v-flex class="mt-5">
+            <v-form class="d-flex align-start">
+                <v-text-field v-model="search" label="Search" cols="5" sm="7" single-line outlined></v-text-field>
+                <v-btn height="55" class="ml-3" color="info" type="submit" @click.prevent="Busqueda(search)">
+                    <v-icon>mdi-magnify</v-icon>Search
+                </v-btn>
+            </v-form>
         </v-flex>
     </v-app-bar>
 
@@ -42,6 +47,7 @@
 
 <script>
 import {
+    mapActions,
     mapState
 } from 'vuex'
 import FloatingButton from './components/FloatingButton'
@@ -54,7 +60,8 @@ export default {
         return {
             windowsWidth: window.innerWidth,
             bottomNav: '',
-            dialog: false
+            dialog: false,
+            search: ''
         }
     },
     components: {
@@ -67,6 +74,9 @@ export default {
                 this.windowsWidth = window.innerWidth
             })
         })
+    },
+    methods: {
+        ...mapActions(['cerrarSesion', 'Busqueda'])
     },
     computed: {
         ...mapState(['user'])
