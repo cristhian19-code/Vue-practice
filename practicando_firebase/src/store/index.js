@@ -10,7 +10,7 @@ export default new Vuex.Store({
   state: {
     books: '',
     user: '',
-    status: false
+    status: false,
   },
   mutations: {
     setBooks(state,books){
@@ -61,8 +61,10 @@ export default new Vuex.Store({
     },
     async IniciarSesion({commit},payload){//iniciarndo sesion por metodo tadicinal
       try {
-        const user = (await auth.signInWithEmailAndPassword(payload.email,payload.password)).user;
-        console.log(user)
+        const uid = (await auth.signInWithEmailAndPassword(payload.email,payload.password)).user.uid;
+        const datos = (await db.collection('usuarios').doc(uid).get()).data();
+        commit('setUser',datos);
+        router.push({name: 'Books'})
       } catch (error) {
         console.log(error)
       }
@@ -75,7 +77,7 @@ export default new Vuex.Store({
     async RegistrarFacebook({commit}){
       const provider = new firebase.auth.FacebookAuthProvider();
       firebase.auth().languageCode = 'es-pe';
-      Provider(provider,commit)
+      Provider(provider,commit);
     },
     async cerrarSesion({commit}){//cerrando la sesion del usuario
       try{
@@ -146,6 +148,7 @@ async function Provider(provider,commit){
     }
     await db.collection('usuarios').doc(user.uid).set(user);
     commit('setUser',user);
+    router.push({name: 'Books'})
   } catch (error) {
     console.log(error)
   }

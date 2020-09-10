@@ -1,5 +1,5 @@
 <template>
-<v-layout d-flex justify-center>
+<v-layout d-flex justify-center mt-5>
     <v-flex xs11 md8 mt-5>
         <v-card>
             <v-card-text class="text-center" v-if="state">

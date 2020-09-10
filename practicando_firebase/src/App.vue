@@ -9,7 +9,7 @@
         <v-avatar class="mx-2" size="50" color="indigo" v-if="user">
             <span class="display-1">{{user.name[0]}}</span>
         </v-avatar>
-        <v-flex class="mt-5">
+        <v-flex class="mt-5" v-if="user">
             <v-form class="d-flex align-start">
                 <v-text-field v-model="search" label="Search" cols="5" sm="7" single-line outlined></v-text-field>
                 <v-btn height="55" class="ml-3" color="info" type="submit" @click.prevent="Busqueda(search)">
@@ -36,7 +36,7 @@
             <v-icon>mdi-heart</v-icon>
         </v-btn>
 
-        <v-btn :to="{name:'Books'}" value="nearby">
+        <v-btn :to="{name:'Books'}" value="books">
             <span>Books</span>
             <v-icon>mdi-book</v-icon>
         </v-btn>

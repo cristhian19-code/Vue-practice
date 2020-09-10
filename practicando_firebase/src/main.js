@@ -19,7 +19,6 @@ firebase.auth().onAuthStateChanged(async result=>{
       store.dispatch('getUser',res)
   }else{
     store.dispatch('getUser',null)
-    console.log('sin iniciar sesion')
   }
 })
 
