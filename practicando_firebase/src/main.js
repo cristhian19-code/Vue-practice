@@ -20,14 +20,14 @@ firebase.auth().onAuthStateChanged(async result=>{
   }else{
     store.dispatch('getUser',null)
   }
+  new Vue({
+    router,
+    store,
+    vuetify,
+    render: h => h(App)
+  }).$mount('#app')
 })
 
-new Vue({
-  router,
-  store,
-  vuetify,
-  render: h => h(App)
-}).$mount('#app')
 
 function DatosT(result){
   const user = {

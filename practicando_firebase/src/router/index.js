@@ -12,8 +12,8 @@ Vue.use(VueRouter)
   },
   {
     path: '/books',
-    meta:{requireAuth: true},
     name: 'Books',
+    meta:{requireAuth: true},
     component: () => import(/* webpackChunkName: "about" */ '../views/Books.vue')
   },
   {

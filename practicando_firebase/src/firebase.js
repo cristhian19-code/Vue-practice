@@ -4,15 +4,14 @@ require("firebase/firestore")
 require("firebase/storage")
 
 var firebaseConfig = {
-    apiKey: "AIzaSyB8F772MSFGIdl0AsTi8_3ho0nBIUdDYLM",
-    authDomain: "practicavue-cc7a7.firebaseapp.com",
-    databaseURL: "https://practicavue-cc7a7.firebaseio.com",
-    projectId: "practicavue-cc7a7",
-    storageBucket: "practicavue-cc7a7.appspot.com",
-    messagingSenderId: "647584302975",
-    appId: "1:647584302975:web:02b7164c51b5ef9fcabc4a",
-    measurementId: "G-2LD6NMW9QT"
-  };
+  apiKey: "AIzaSyB_kUdGPHIrG0GcFZ7VnLmNRIbyYcJ_1Ms",
+  authDomain: "bookonline-97322.firebaseapp.com",
+  databaseURL: "https://bookonline-97322.firebaseio.com",
+  projectId: "bookonline-97322",
+  storageBucket: "bookonline-97322.appspot.com",
+  messagingSenderId: "1001372109359",
+  appId: "1:1001372109359:web:a5663abeb8ea4bef0054da"
+};
   
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);

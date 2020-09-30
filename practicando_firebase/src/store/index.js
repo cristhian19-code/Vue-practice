@@ -54,7 +54,7 @@ export default new Vuex.Store({
         }
         await db.collection('usuarios').doc(usuario.uid).set(usuario);
         commit('setUser',usuario);
-        console.log('usuario almacenado')
+        router.push({name: 'Books'})
       } catch (error) {
         console.log(error)
       }
@@ -72,7 +72,7 @@ export default new Vuex.Store({
     async RegistrarGoogle({commit}){//registro utilizando la cuenta de google
       const provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth().languageCode = 'es-pe';
-      Provider(provider,commit)
+      Provider(provider,commit);
     },
     async RegistrarFacebook({commit}){
       const provider = new firebase.auth.FacebookAuthProvider();

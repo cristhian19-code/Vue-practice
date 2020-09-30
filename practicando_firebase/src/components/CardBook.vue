@@ -1,5 +1,5 @@
 <template>
-<v-card max-width="300" class="my-5">
+<v-card max-width="300" class="my-5 mx-3 elevation-8">
     <v-list-item>
         <v-list-item-avatar color="grey">
             <img :src="book.thumbnail" alt="">
